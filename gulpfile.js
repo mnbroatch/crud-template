@@ -34,6 +34,10 @@ const paths = {
 	}
 }
 
+gulp.task('bow', function(cb){
+	console.log(mainBowerFiles());
+});
+
 gulp.task('js',['clean:js'], function(cb){
 	const jsFiles = [paths.js.input];
 	pump([	
@@ -43,6 +47,7 @@ gulp.task('js',['clean:js'], function(cb){
 			"**/jquery.js",
 			"**/bootstrap.js",
 			"**/angular.js",
+			"**/angular-cookies.js",
 			"**/modules/*.js",
 			"**/*.js",
 		]),
