@@ -1,9 +1,5 @@
-"use strict;"
+function mainController() {
+}
 
-angular.module('gulptest')
-.controller('mainController', function($scope) {
-
-});
-
-
-
+angular.module('crud-template')
+.controller('mainController', mainController);

@@ -1,55 +1,38 @@
-"use strict;"
+function stuffController($scope, $http, stuffService, $rootScope) {
+  $scope.stuffArray = [];
 
-angular.module('gulptest')
-.controller('stuffController', function($scope,$http,stuffService) {
+  $scope.addOneStuff = function (stuff) {
+    stuffService.addOne(stuff, $rootScope.currentUser)
+    .then(newStuff => {
+      if (newStuff) $scope.stuffArray.push(newStuff);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  };
 
-	$scope.stuffArray =[];
+  $scope.removeOneStuff = function (stuff) {
+    const index = $scope.stuffArray.indexOf(stuff);
+    stuffService.removeOne(stuff)
+    .then(() => {
+      $scope.stuffArray.splice(index, 1);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  };
 
-	stuffService.getAll()
-	.then( function(stuffs){
-		if(stuffs) $scope.stuffArray.push(...stuffs);
-	})
-	.catch( err => {
-		console.log(err);
-	});
+  $scope.editOneStuff = function (editedStuff) {
+    console.log(editedStuff);
+    stuffService.editOne(editedStuff)
+    .then(updatedStuff => {
+      console.log(updatedStuff);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  };
+}
 
-
-
-	$scope.addOneStuff = function(stuff){
-		stuffService.addOne(stuff)
-		.then( function(newStuff){
-			if(newStuff) $scope.stuffArray.push(newStuff);
-		})
-		.catch( err => {
-			console.log(err);
-		});
-	}
-
-	$scope.removeOneStuff = function(stuff){
-		let index = $scope.stuffArray.indexOf(stuff);
-		stuffService.removeOne(stuff)
-		.then( function(){
-			$scope.stuffArray.splice(index,1);
-		})
-		.catch( err => {
-			console.log(err);
-		});
-	}
-
-	//  assumes uuid that doesn't change on edit
-	$scope.editOneStuff = function(editedStuff){
-	console.log(editedStuff);
-		stuffService.editOne(editedStuff)
-		.then( function(updatedStuff){
-			console.log('edited');
-		})
-		.catch( err => {
-			console.log(err);
-		});
-	}
-
-
-});
-
-
-
+angular.module('crud-template')
+.controller('stuffController', stuffController);
